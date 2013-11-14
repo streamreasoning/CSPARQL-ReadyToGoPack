@@ -49,11 +49,11 @@ public class HelloWorldCSPARQL {
 
 		// put here the example you want to run
 		
-		int key = DOOR_TEST;
+		int key = COMPOSABILITY;
 
 		// initializations
 		
-		String streamURI = "http://myexample.org/stream";
+//		String streamURI = "http://myexample.org/stream";
 		String query = null;
 		String queryDownStream = null;
 		RdfStream tg = null;

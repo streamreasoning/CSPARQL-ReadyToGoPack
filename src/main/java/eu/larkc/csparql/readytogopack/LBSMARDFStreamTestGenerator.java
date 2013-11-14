@@ -57,7 +57,7 @@ public class LBSMARDFStreamTestGenerator extends RdfStream implements Runnable {
 
 
 		keepRunning = true;
-		
+
 		while (keepRunning) {
 			final RdfQuadruple q = new RdfQuadruple(super.getIRI()+"/user" + this.c,
 					"http://myexample.org/likes", "http://myexample.org/O" + this.c, System.currentTimeMillis());
@@ -73,7 +73,7 @@ public class LBSMARDFStreamTestGenerator extends RdfStream implements Runnable {
 						"http://myexample.org/likes", "http://myexample.org/O" + this.c, System.currentTimeMillis());
 				this.put(q1);
 				//         logger.info(q1.toString());
-				
+
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
