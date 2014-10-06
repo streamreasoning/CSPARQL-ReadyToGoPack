@@ -1,6 +1,19 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+/target
+target/
+*/target/*
+*/target/**
+*/doc/*
+*/doc/**
+*/documentation/*
+*/documentation/**
+*/log/*
+*/log/**
+*/.settings/**
+*~
+*.classpath
+*.metadata
+*.project
+*.settings
+*.log
+*.DS_Store
+._*
