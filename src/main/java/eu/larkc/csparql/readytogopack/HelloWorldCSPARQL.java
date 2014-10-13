@@ -250,7 +250,7 @@ public class HelloWorldCSPARQL {
 		if (key != COMPOSABILITY) {
 
 			try {
-				c1 = engine.registerQuery(query);
+				c1 = engine.registerQuery(query, false);
 				System.out.println("Query: " + query);
 				System.out.println("Query Start Time : "
 						+ System.currentTimeMillis());
@@ -266,7 +266,7 @@ public class HelloWorldCSPARQL {
 
 		} else {
 			try {
-				c1 = engine.registerQuery(query);
+				c1 = engine.registerQuery(query, false);
 				System.out.println("Query: " + query);
 				System.out.println("Query Start Time : "
 						+ System.currentTimeMillis());
@@ -280,7 +280,7 @@ public class HelloWorldCSPARQL {
 				c1.addObserver((RDFStreamFormatter) anotherTg);
 
 				try {
-					c2 = engine.registerQuery(queryDownStream);
+					c2 = engine.registerQuery(queryDownStream, false);
 					System.out.println("Query: " + query);
 					System.out.println("Query Start Time : "
 							+ System.currentTimeMillis());
