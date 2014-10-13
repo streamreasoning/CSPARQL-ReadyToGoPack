@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.larkc.csparql</groupId>
 	<artifactId>CSPARQL-ReadyToGoPack</artifactId>
-	<version>0.9.2</version>
+	<version>0.9.3</version>
 	<packaging>jar</packaging>
 
 	<name>csparql-ui</name>
@@ -20,8 +20,8 @@
 	<repositories>
 		<repository>
 			<id>streamreasoning_repository</id>
-			<name>Csparql server repository</name>
-			<url>http://streamreasoning.org/maven/</url>
+			<name>streamreasoning repository</name>
+			<url>http://131.175.59.106:8080/repository/streamreasoning_repository/</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
