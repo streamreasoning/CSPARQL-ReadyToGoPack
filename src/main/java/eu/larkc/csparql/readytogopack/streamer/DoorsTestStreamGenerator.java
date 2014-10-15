@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Davide Barbieri, Emanuele Della Valle, Marco Balduini
+ * Copyright 2014 Davide Barbieri, Emanuele Della Valle, Marco Balduini
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  * This work was partially supported by the European project LarKC (FP7-215535) 
  * and by the European project MODAClouds (FP7-318484)
  ******************************************************************************/
-package eu.larkc.csparql.readytogopack;
+package eu.larkc.csparql.readytogopack.streamer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

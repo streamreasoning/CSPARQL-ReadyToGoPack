@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Davide Barbieri, Emanuele Della Valle, Marco Balduini
+ * Copyright 2014 Davide Barbieri, Emanuele Della Valle, Marco Balduini
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@
  * This work was partially supported by the European project LarKC (FP7-215535) 
  * and by the European project MODAClouds (FP7-318484)
  ******************************************************************************/
-package eu.larkc.csparql.readytogopack;
-
-import java.util.Random;
+package eu.larkc.csparql.readytogopack.streamer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +26,16 @@ import org.slf4j.LoggerFactory;
 import eu.larkc.csparql.cep.api.RdfQuadruple;
 import eu.larkc.csparql.cep.api.RdfStream;
 
-public class BasicIntegerRDFStreamTestGenerator extends RdfStream implements Runnable {
+public class BasicRDFStreamTestGenerator extends RdfStream implements Runnable {
 
 	/** The logger. */
 	protected final Logger logger = LoggerFactory
-			.getLogger(BasicIntegerRDFStreamTestGenerator.class);	
+			.getLogger(BasicRDFStreamTestGenerator.class);	
 
 	private int c = 1;
 	private boolean keepRunning = false;
 
-	public BasicIntegerRDFStreamTestGenerator(final String iri) {
+	public BasicRDFStreamTestGenerator(final String iri) {
 		super(iri);
 	}
 
@@ -49,15 +47,15 @@ public class BasicIntegerRDFStreamTestGenerator extends RdfStream implements Run
 	public void run() {
 		keepRunning = true;
 		while (keepRunning) {
-			Random rnd = new Random();
-			int n = rnd.nextInt(10);
-			final RdfQuadruple q = new RdfQuadruple(getIRI()+"/S",	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
+			final RdfQuadruple q = new RdfQuadruple(getIRI()+"/S" + this.c,
+					getIRI()+"/P" + this.c, getIRI()+"/O" + this.c, 
+					System.currentTimeMillis());
 
-			System.out.println(n);
+			if(c%10==0) logger.info(c+ " triples streamed so far");
 
 			this.put(q);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
