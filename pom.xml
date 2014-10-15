@@ -13,7 +13,7 @@
 	<version>0.9.4</version>
 	<packaging>jar</packaging>
 
-	<name>csparql-ui</name>
+	<name>csparql-readytogopack</name>
 
 	<url>http://streamreasoning.org</url>
 
@@ -111,6 +111,18 @@
 							<overWriteSnapshots>false</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

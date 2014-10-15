@@ -20,9 +20,6 @@
  ******************************************************************************/
 package eu.larkc.csparql.sr4ld2014;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,16 +34,16 @@ public class SR4LD2014_Ex7 {
 
 	private static Logger logger = LoggerFactory.getLogger(SR4LD2014_Ex7.class);
 	
+	/*
+	 * Example 7: Access and usage of static knowledge example
+	 */
+
 	public static void main(String[] args) {
 
 		try{
 			
 			//Configure log4j logger for the csparql engine
-			try {
-				PropertyConfigurator.configure(new URL("http://streamreasoning.org/configuration_files/csparql_readyToGoPack_log4j.properties"));
-			} catch (MalformedURLException e) {
-				logger.error(e.getMessage(), e);
-			}
+			PropertyConfigurator.configure("log4j_configuration/csparql_readyToGoPack_log4j.properties");
 				
 			//Create csparql engine instance
 			CsparqlEngineImpl engine = new CsparqlEngineImpl();
