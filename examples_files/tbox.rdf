@@ -1,0 +1,17 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" > 
+  <rdf:Description rdf:about="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#posts">
+    <rdfs:subPropertyOf rdf:resource="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#observes"/>
+  </rdf:Description>
+    <rdf:Description rdf:about="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#observes">
+    <rdfs:domain rdf:resource="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Sensor"/>
+    <rdfs:range rdf:resource="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Observation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Person">
+    <rdfs:subClassOf rdf:resource="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Sensor"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Post">
+    <rdfs:subClassOf rdf:resource="http://www.streamreasoning.org/ontologies/sr4ld2014-onto#Observation"/>
+  </rdf:Description>
+</rdf:RDF>
