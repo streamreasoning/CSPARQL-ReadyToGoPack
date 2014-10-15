@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Davide Barbieri, Emanuele Della Valle, Marco Balduini
+ * Copyright 2014 Davide Barbieri, Emanuele Della Valle, Marco Balduini
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,38 @@
  ******************************************************************************/
 package eu.larkc.csparql.readytogopack;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.larkc.csparql.cep.api.RdfStream;
+import eu.larkc.csparql.core.engine.ConsoleFormatter;
 import eu.larkc.csparql.core.engine.CsparqlEngine;
 import eu.larkc.csparql.core.engine.CsparqlEngineImpl;
 import eu.larkc.csparql.core.engine.CsparqlQueryResultProxy;
 import eu.larkc.csparql.core.engine.RDFStreamFormatter;
+import eu.larkc.csparql.readytogopack.streamer.BasicIntegerRDFStreamTestGenerator;
+import eu.larkc.csparql.readytogopack.streamer.BasicRDFStreamTestGenerator;
+import eu.larkc.csparql.readytogopack.streamer.CloudMonitoringRDFStreamTestGenerator;
+import eu.larkc.csparql.readytogopack.streamer.DoorsTestStreamGenerator;
+import eu.larkc.csparql.readytogopack.streamer.LBSMARDFStreamTestGenerator;
 
 public class HelloWorldCSPARQL {
 
-	/**
-	 * @param args
-	 */
+	private static Logger logger = LoggerFactory.getLogger(HelloWorldCSPARQL.class);
+	
 	public static void main(String[] args) {
-
+		
+		try {
+			PropertyConfigurator.configure(new URL("http://streamreasoning.org/configuration_files/csparql_readyToGoPack_log4j.properties"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getMessage(), e);
+		}
+		
 		// examples of streams and queries
 
 		final int WHO_LIKES_WHAT = 0;
@@ -49,7 +66,7 @@ public class HelloWorldCSPARQL {
 
 		// put here the example you want to run
 		
-		int key = COMPOSABILITY;
+		int key = WHO_LIKES_WHAT;
 
 		// initializations
 		
@@ -61,6 +78,9 @@ public class HelloWorldCSPARQL {
 
 		switch (key) {
 		case WHO_LIKES_WHAT:
+			
+			logger.debug("WHO_LIKES_WHAT example");
+			
 			query = "REGISTER QUERY WhoLikesWhat AS "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?s ?o "
@@ -70,6 +90,9 @@ public class HelloWorldCSPARQL {
 
 			break;
 		case HOW_MANY_USERS_LIKE_THE_SAME_OBJ:
+			
+			logger.debug("HOW_MANY_USERS_LIKE_THE_SAME_OBJ example");
+
 			query = "REGISTER QUERY HowManyUsersLikeTheSameObj AS "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?o (count(?s) as ?countUsers) "
@@ -79,6 +102,9 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case MULTI_STREAM:
+			
+			logger.debug("MULTI_STREAM example");
+
 			query = "REGISTER QUERY TrendyObjectsOnMultipleSocialNetworks AS "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?o (count(?s) as ?countUsers) "
@@ -92,6 +118,9 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case FIND_OPINION_MAKERS:
+			
+			logger.debug("FIND_OPINION_MAKERS example");
+
 			query = ""
 					+ "REGISTER QUERY FindOpinionMakers AS "
 					+ "PREFIX f: <http://larkc.eu/csparql/sparql/jena/ext#> "
@@ -110,6 +139,9 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH:
+			
+			logger.debug("STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH example");
+
 			query = ""
 					+ "REGISTER QUERY StreamingAndExternalStaticRdfGraph AS "
 					+ "PREFIX f: <http://larkc.eu/csparql/sparql/jena/ext#> "
@@ -131,6 +163,9 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case DOOR_TEST:
+			
+			logger.debug("DOOR_TEST example");
+
 			query = "REGISTER QUERY test AS "
 					+ "PREFIX f: <http://larkc.eu/csparql/sparql/jena/ext#> "
 					+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "
@@ -148,6 +183,8 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case CLOUD_MONITORING_TEST:
+			
+			logger.debug("CLOUD_MONITORING_TEST example");
 
 			query = "REGISTER QUERY HelloWorld AS "
 					+ "PREFIX mc: <http://www.modaclouds.eu/ontologies/2013/2/monitoring#> "
@@ -165,6 +202,9 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case COMPOSABILITY:
+			
+			logger.debug("COMPOSABILITY example");
+
 			query = "REGISTER STREAM UpStreamQuery AS "
 					+ "CONSTRUCT {?s <http://myexample.org/stream2/P> ?o }"
 					+ "FROM STREAM <http://myexample.org/stream1> [RANGE 5s STEP 1s] "
@@ -178,6 +218,9 @@ public class HelloWorldCSPARQL {
 			break;
 			
 		case PERCENTILE:
+			
+			logger.debug("PERCENTILE example");
+
 			query = "REGISTER QUERY HelloWorld AS "
 					+ "PREFIX mc: <http://www.modaclouds.eu/ontologies/2013/2/monitoring#> "
 					+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> "
@@ -251,11 +294,10 @@ public class HelloWorldCSPARQL {
 
 			try {
 				c1 = engine.registerQuery(query, false);
-				System.out.println("Query: " + query);
-				System.out.println("Query Start Time : "
-						+ System.currentTimeMillis());
+				logger.debug("Query: {}", query);
+				logger.debug("Query Start Time : {}", System.currentTimeMillis());
 			} catch (final ParseException ex) {
-				System.out.println("errore di parsing: " + ex.getMessage());
+				logger.error(ex.getMessage(), ex);
 			}
 
 			// Attach a Result Formatter to the query result proxy
@@ -267,11 +309,10 @@ public class HelloWorldCSPARQL {
 		} else {
 			try {
 				c1 = engine.registerQuery(query, false);
-				System.out.println("Query: " + query);
-				System.out.println("Query Start Time : "
-						+ System.currentTimeMillis());
+				logger.debug("Query: {}", query);
+				logger.debug("Query Start Time : {}", System.currentTimeMillis());
 			} catch (final ParseException ex) {
-				System.out.println("errore di parsing: " + ex.getMessage());
+				logger.error(ex.getMessage(), ex);
 			}
 
 			// Attach a Result Formatter to the query result proxy
@@ -281,11 +322,10 @@ public class HelloWorldCSPARQL {
 
 				try {
 					c2 = engine.registerQuery(queryDownStream, false);
-					System.out.println("Query: " + query);
-					System.out.println("Query Start Time : "
-							+ System.currentTimeMillis());
+					logger.debug("Query: {}", query);
+					logger.debug("Query Start Time : {}", System.currentTimeMillis());
 				} catch (final ParseException ex) {
-					System.out.println("errore di parsing: " + ex.getMessage());
+					logger.error(ex.getMessage(), ex);
 				}
 
 				if (c2 != null) {
@@ -302,7 +342,7 @@ public class HelloWorldCSPARQL {
 		try {
 			Thread.sleep(200000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 
 		if (key != COMPOSABILITY) {
