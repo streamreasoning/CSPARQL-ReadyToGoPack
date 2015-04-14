@@ -36,6 +36,11 @@
 			<artifactId>csparql-core</artifactId>
 			<version>0.9.5.1</version>
 		</dependency>
+		<dependency>
+			<groupId>it.polimi.deib</groupId>
+			<artifactId>rsp-services-api</artifactId>
+			<version>0.4.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
