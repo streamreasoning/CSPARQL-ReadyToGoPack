@@ -51,7 +51,7 @@ public class SR4LD2014_Ex7 {
 			//The initialization creates the static engine (SPARQL) and the stream engine (CEP)
 			engine.initialize();
 			
-			String queryBody = "REGISTER QUERY noreasoning AS "
+			String queryBody = "REGISTER QUERY staticKnowledge AS "
 					+ "PREFIX :<http://www.streamreasoning.org/ontologies/sr4ld2014-onto#> "
 					+ "SELECT ?p1 ?r1 "
 					+ "FROM STREAM <http://streamreasoning.org/streams/fb> [RANGE 1s STEP 1s] "

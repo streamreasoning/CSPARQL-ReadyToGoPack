@@ -21,6 +21,7 @@
 package eu.larkc.csparql.readytogopack.streamer;
 
 import java.util.Random;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +52,10 @@ public class BasicIntegerRDFStreamTestGenerator extends RdfStream implements Run
 		while (keepRunning) {
 			Random rnd = new Random();
 			int n = rnd.nextInt(10);
-			final RdfQuadruple q = new RdfQuadruple(getIRI()+"/S",	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
+//			final RdfQuadruple q = new RdfQuadruple(getIRI()+"/S",	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
+			final RdfQuadruple q = new RdfQuadruple("urn:"+UUID.randomUUID().toString(),	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
 
-			System.out.println(n);
+//			System.out.println(n);
 
 			this.put(q);
 			try {
