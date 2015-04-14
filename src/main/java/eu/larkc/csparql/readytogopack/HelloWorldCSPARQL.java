@@ -66,7 +66,7 @@ public class HelloWorldCSPARQL {
 
 		// put here the example you want to run
 		
-		int key = WHO_LIKES_WHAT;
+		int key = PERCENTILE;
 
 		// initializations
 		
@@ -86,7 +86,10 @@ public class HelloWorldCSPARQL {
 					+ "SELECT ?s ?o "
 					+ "FROM STREAM <http://myexample.org/stream> [RANGE 5s STEP 1s] "
 					+ "WHERE { ?s ex:likes ?o }";
-			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
+
+//			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
+			tg = new BasicIntegerRDFStreamTestGenerator("http://myexample.org/stream");
+
 
 			break;
 		case HOW_MANY_USERS_LIKE_THE_SAME_OBJ:
@@ -97,7 +100,9 @@ public class HelloWorldCSPARQL {
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?o (count(?s) as ?countUsers) "
 					+ "FROM STREAM <http://myexample.org/stream> [RANGE 5s STEP 1s] "
-					+ "WHERE { ?s ex:likes ?o } " + "GROUP BY ?o ";
+					+ "WHERE { ?s ex:likes ?o "
+					+ "} " 
+					+ "GROUP BY ?o ";
 			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
 			break;
 
@@ -126,13 +131,14 @@ public class HelloWorldCSPARQL {
 					+ "PREFIX f: <http://larkc.eu/csparql/sparql/jena/ext#> "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?opinionMaker ?o (COUNT(?follower) AS ?n) "
-					+ "FROM STREAM <http://myexample.org/stream> [RANGE 10s STEP 5s]"
+					+ "FROM STREAM <http://myexample.org/stream> [RANGE 10s STEP 5s] "
 					+ "WHERE { "
 					+ "?opinionMaker ex:likes ?o . "
 					+ "?follower ex:likes ?o . "
 					+ "FILTER(?opinionMaker!=?follower)"
 					+ "FILTER (f:timestamp(?follower,ex:likes,?o) > f:timestamp(?opinionMaker,ex:likes,?o)) "
-					+ "} " + "GROUP BY ?opinionMaker ?o "
+					+ "} " 
+					+ "GROUP BY ?opinionMaker ?o "
 					+ "HAVING (COUNT(?follower)>3)";
 			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
 
