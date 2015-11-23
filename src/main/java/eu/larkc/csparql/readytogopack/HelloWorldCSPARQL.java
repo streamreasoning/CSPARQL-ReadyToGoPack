@@ -66,7 +66,7 @@ public class HelloWorldCSPARQL {
 
 		// put here the example you want to run
 
-		int key = STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH;
+		int key = PERCENTILE;
 
 		// initializations
 
