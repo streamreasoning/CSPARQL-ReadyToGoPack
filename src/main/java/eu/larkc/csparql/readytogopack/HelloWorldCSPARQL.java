@@ -43,15 +43,15 @@ import eu.larkc.csparql.readytogopack.streamer.LBSMARDFStreamTestGenerator;
 public class HelloWorldCSPARQL {
 
 	private static Logger logger = LoggerFactory.getLogger(HelloWorldCSPARQL.class);
-	
+
 	public static void main(String[] args) {
-		
+
 		try {
 			PropertyConfigurator.configure(new URL("http://streamreasoning.org/configuration_files/csparql_readyToGoPack_log4j.properties"));
 		} catch (MalformedURLException e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		// examples of streams and queries
 
 		final int WHO_LIKES_WHAT = 0;
@@ -65,35 +65,54 @@ public class HelloWorldCSPARQL {
 		final int PERCENTILE = 8;
 
 		// put here the example you want to run
-		
-		int key = PERCENTILE;
+
+		int key = STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH;
 
 		// initializations
-		
-//		String streamURI = "http://myexample.org/stream";
+
+		//		String streamURI = "http://myexample.org/stream";
 		String query = null;
 		String queryDownStream = null;
 		RdfStream tg = null;
 		RdfStream anotherTg = null;
 
+		// Initialize C-SPARQL Engine
+		CsparqlEngine engine = new CsparqlEngineImpl();
+		
+		/*
+		 * Choose one of the the following initialize methods: 
+		 * 1 - initialize() - Inactive timestamp function - Inactive injecter 
+		 * 2 - initialize(int* queueDimension) - Inactive timestamp function -
+		 *     Active injecter with the specified queue dimension (if 
+		 *     queueDimension = 0 the injecter will be inactive) 
+		 * 3 - initialize(boolean performTimestampFunction) - if
+		 *     performTimestampFunction = true, the timestamp function will be
+		 *     activated - Inactive injecter 
+		 * 4 - initialize(int queueDimension, boolean performTimestampFunction) - 
+		 *     if performTimestampFunction = true, the timestamp function will
+		 *     be activated - Active injecter with the specified queue dimension
+		 *     (if queueDimension = 0 the injecter will be inactive)
+		 */
+		engine.initialize(true);
+
 		switch (key) {
 		case WHO_LIKES_WHAT:
-			
+
 			logger.debug("WHO_LIKES_WHAT example");
-			
+
 			query = "REGISTER QUERY WhoLikesWhat AS "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?s ?o "
 					+ "FROM STREAM <http://myexample.org/stream> [RANGE 5s STEP 1s] "
 					+ "WHERE { ?s ex:likes ?o }";
 
-//			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
-			tg = new BasicIntegerRDFStreamTestGenerator("http://myexample.org/stream");
+			tg = new LBSMARDFStreamTestGenerator("http://myexample.org/stream");
+			//			tg = new BasicIntegerRDFStreamTestGenerator("http://myexample.org/stream");
 
 
 			break;
 		case HOW_MANY_USERS_LIKE_THE_SAME_OBJ:
-			
+
 			logger.debug("HOW_MANY_USERS_LIKE_THE_SAME_OBJ example");
 
 			query = "REGISTER QUERY HowManyUsersLikeTheSameObj AS "
@@ -107,7 +126,7 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case MULTI_STREAM:
-			
+
 			logger.debug("MULTI_STREAM example");
 
 			query = "REGISTER QUERY TrendyObjectsOnMultipleSocialNetworks AS "
@@ -123,7 +142,7 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case FIND_OPINION_MAKERS:
-			
+
 			logger.debug("FIND_OPINION_MAKERS example");
 
 			query = ""
@@ -145,15 +164,17 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH:
-			
+
 			logger.debug("STREAMING_AND_EXTERNAL_STATIC_RDF_GRAPH example");
+
+			engine.putStaticNamedModel("http://streamreasoning.org/larkc/csparql/LBSMA-static-k.rdf", "http://streamreasoning.org/larkc/csparql/LBSMA-static-k.rdf");
 
 			query = ""
 					+ "REGISTER QUERY StreamingAndExternalStaticRdfGraph AS "
 					+ "PREFIX f: <http://larkc.eu/csparql/sparql/jena/ext#> "
 					+ "PREFIX ex: <http://myexample.org/> "
 					+ "SELECT ?opinionMaker ?o (COUNT(?follower) AS ?n) "
-					+ "FROM STREAM <http://myexample.org/stream> [RANGE 10s STEP 5s]"
+					+ "FROM STREAM <http://myexample.org/stream> [RANGE 10s STEP 5s] "
 					+ "FROM <http://streamreasoning.org/larkc/csparql/LBSMA-static-k.rdf> "
 					+ "WHERE { "
 					+ "?opinionMaker ex:likes ?o . "
@@ -169,7 +190,7 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case DOOR_TEST:
-			
+
 			logger.debug("DOOR_TEST example");
 
 			query = "REGISTER QUERY test AS "
@@ -189,7 +210,7 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case CLOUD_MONITORING_TEST:
-			
+
 			logger.debug("CLOUD_MONITORING_TEST example");
 
 			query = "REGISTER QUERY HelloWorld AS "
@@ -208,7 +229,7 @@ public class HelloWorldCSPARQL {
 			break;
 
 		case COMPOSABILITY:
-			
+
 			logger.debug("COMPOSABILITY example");
 
 			query = "REGISTER STREAM UpStreamQuery AS "
@@ -222,9 +243,9 @@ public class HelloWorldCSPARQL {
 			tg = new BasicRDFStreamTestGenerator("http://myexample.org/stream1");
 			anotherTg = new RDFStreamFormatter("http://myexample.org/stream2");
 			break;
-			
+
 		case PERCENTILE:
-			
+
 			logger.debug("PERCENTILE example");
 
 			query = "REGISTER QUERY HelloWorld AS "
@@ -244,7 +265,7 @@ public class HelloWorldCSPARQL {
 					"} " +
 					"GROUP BY ?s " +
 					"HAVING (?fr > 0.1)";
-					
+
 			tg = new BasicIntegerRDFStreamTestGenerator("http://myexample.org/stream");
 			break;
 
@@ -252,27 +273,6 @@ public class HelloWorldCSPARQL {
 			System.exit(0);
 			break;
 		}
-
-		// Initialize C-SPARQL Engine
-
-		CsparqlEngine engine = new CsparqlEngineImpl();
-		
-		/*
-		 * Choose one of the the following initialize methods: 
-		 * 1 - initialize() - Inactive timestamp function - Inactive injecter 
-		 * 2 - initialize(int* queueDimension) - Inactive timestamp function -
-		 *     Active injecter with the specified queue dimension (if 
-		 *     queueDimension = 0 the injecter will be inactive) 
-		 * 3 - initialize(boolean performTimestampFunction) - if
-		 *     performTimestampFunction = true, the timestamp function will be
-		 *     activated - Inactive injecter 
-		 * 4 - initialize(int queueDimension, boolean performTimestampFunction) - 
-		 *     if performTimestampFunction = true, the timestamp function will
-		 *     be activated - Active injecter with the specified queue dimension
-		 *     (if queueDimension = 0 the injecter will be inactive)
-		 */
-		
-		engine.initialize(true);
 
 		// Register an RDF Stream
 
@@ -375,7 +375,7 @@ public class HelloWorldCSPARQL {
 
 		System.exit(0);
 
-		
+
 
 	}
 

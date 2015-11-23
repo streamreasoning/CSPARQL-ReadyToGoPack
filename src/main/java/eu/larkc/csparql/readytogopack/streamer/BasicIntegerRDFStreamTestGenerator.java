@@ -55,7 +55,7 @@ public class BasicIntegerRDFStreamTestGenerator extends RdfStream implements Run
 //			final RdfQuadruple q = new RdfQuadruple(getIRI()+"/S",	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
 			final RdfQuadruple q = new RdfQuadruple("urn:"+UUID.randomUUID().toString(),	getIRI()+"/P" + this.c, String.valueOf(n) + "^^http://www.w3.org/2001/XMLSchema#integer",System.currentTimeMillis());
 
-//			System.out.println(n);
+//			System.out.println(q);
 
 			this.put(q);
 			try {
